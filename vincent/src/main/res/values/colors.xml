@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="green_2DAF5A">#2daf5a</color>
+    <color name="bg_toolbar">#F5F5F5</color>
+    <color name="bg_bottom_action_bar">#212121</color>
+    <color name="secondary_text_color">#46ffffff</color>
+    <color name="bottom_action_text_color">#ffffff</color>
+    <color name="dividing_line_dark">#e0e0e0</color>
+    <color name="dividing_line_light">#eeeeee</color>
+</resources>

@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">library</string>
+    <string name="app_name">Vincent</string>
+    <string name="image_picker_title">选择图片</string>
+    <string name="selected_image_count">已选择（%1$d/%2$d）</string>
+    <string name="preview_image_count">%1$d/%2$d</string>
+
+    <string name="transition_image">image</string>
+    <string name="chose">选择</string>
+    <string name="preview">预览</string>
+    <string name="preview_with_args">预览(%d)</string>
 </resources>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Vincent</string>
+    <string name="over_max_limit">最多选择9张图片</string>
 </resources>

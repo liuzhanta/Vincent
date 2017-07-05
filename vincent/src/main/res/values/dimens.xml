@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="grid_list_padding">4dp</dimen>
+    <dimen name="bottom_action_bar_height">48dp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+</resources>
