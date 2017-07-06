@@ -56,14 +56,14 @@ In `onActivityResult()` callback of the starting `Activity` or `Fragment`:
     }
 ```
 
-####Developed by
-------------
+## Developed by
+
 Name: ZTerry Liu  
 E-mail: tata1989y@gmail.com  
 Subject: Vincent 
  
-#####License
----------
+## License
+
 
     Copyright 2016 刘战塔
     
