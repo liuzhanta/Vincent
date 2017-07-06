@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:background="@color/bg_toolbar"
             android:fitsSystemWindows="true"
-            android:minHeight="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
+            android:minHeight="?attr/actionBarSize" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -30,7 +30,6 @@
         android:paddingLeft="@dimen/grid_list_padding"
         android:paddingTop="4dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
     <include layout="@layout/bottom_picker_action_layout" />
 </android.support.design.widget.CoordinatorLayout>

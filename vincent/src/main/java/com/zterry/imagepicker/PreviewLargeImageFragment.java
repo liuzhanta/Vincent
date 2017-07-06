@@ -52,6 +52,6 @@ public class PreviewLargeImageFragment extends Fragment {
         if (imageFile != null && !TextUtils.isEmpty(imageFile.getThumbnail())) {
             bigImageView.showImage(Uri.parse("file://" + imageFile.getUri()));
         }
-
     }
+
 }

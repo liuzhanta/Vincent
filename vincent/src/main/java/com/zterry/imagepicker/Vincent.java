@@ -9,7 +9,8 @@ import com.zterry.imagepicker.bean.ImageFile;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import static com.zterry.imagepicker.util.Constants.EXTRA_KEY_SELECTED_IMAGES;
+import static com.zterry.imagepicker.util.Constants.EXTRA_KEY_SELECTED_IMAGE_LIST;
+
 
 /**
  * Description:  <br>
@@ -72,7 +73,7 @@ public class Vincent {
     public static List<ImageFile> handleActivityResult(Intent data) {
         if (data != null) {
             List<ImageFile> imageFiles = (List<ImageFile>) data.getSerializableExtra(
-                    EXTRA_KEY_SELECTED_IMAGES);
+                    EXTRA_KEY_SELECTED_IMAGE_LIST);
             return imageFiles;
         }
         return null;

@@ -11,9 +11,9 @@
 
         <TextView
             android:id="@+id/tv_complete_chose"
+            android:background="?android:selectableItemBackgroundBorderless"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="?selectableItemBackground"
             android:layout_gravity="right|center_vertical"
             android:gravity="center"
             android:text="@string/complete_with_args"

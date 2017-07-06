@@ -3,9 +3,7 @@ package com.zterry.imagepicker.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatCheckBox;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -48,6 +46,7 @@ public class ImagePickerAdapter extends BaseRecyclerViewAdapter<ImageFile> {
 
     public void setSelectedImageFiles(List<ImageFile> selectedImageFiles) {
         this.selectedImageFiles = selectedImageFiles;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -57,8 +56,9 @@ public class ImagePickerAdapter extends BaseRecyclerViewAdapter<ImageFile> {
 
     @Override
     protected void onBindViewData(RecyclerViewHolder holder, final ImageFile imageFile, int position) {
-        //set image
         final ImageView imageView = holder.getView(R.id.image_view);
+
+        //set image
         if (ImageParams.placeHolder != 0) {
             imageView.setBackgroundResource(ImageParams.placeHolder);
         }
@@ -76,7 +76,6 @@ public class ImagePickerAdapter extends BaseRecyclerViewAdapter<ImageFile> {
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                 if (isChecked) {
                     if (selectedImageFiles.size() >= ImageParams.maxSelectCount) {
                         Toast.makeText(mContext, ImageParams.overMaxSelectCountMessage,

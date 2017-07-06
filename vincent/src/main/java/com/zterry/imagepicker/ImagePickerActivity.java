@@ -29,7 +29,8 @@ import com.zterry.imagepicker.view.AlbumBottomSheetDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zterry.imagepicker.util.Constants.EXTRA_KEY_SELECTED_IMAGES;
+import static com.zterry.imagepicker.ViewLargerImageActivity.REQ_CODE_VIEW_LARGE_IMAGE;
+import static com.zterry.imagepicker.util.Constants.EXTRA_KEY_SELECTED_IMAGE_LIST;
 
 /**
  * Description: ImagePickerActivity <br>
@@ -38,7 +39,7 @@ import static com.zterry.imagepicker.util.Constants.EXTRA_KEY_SELECTED_IMAGES;
  */
 
 public class ImagePickerActivity extends AppCompatActivity implements View.OnClickListener,
-        BaseRecyclerViewAdapter.OnItemClickListener {
+        BaseRecyclerViewAdapter.OnItemClickListener, AlbumAdapter.OnAlbumSelectedListener, ImagePickerAdapter.OnImageSelectedListener {
 
     private static final String TAG = "ImagePickerActivity";
 
@@ -105,13 +106,7 @@ public class ImagePickerActivity extends AppCompatActivity implements View.OnCli
         }
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        if (TextUtils.isEmpty(ImageParams.title)) {
-            if (ImageParams.titleResId != 0) {
-                mToolbar.setTitle(ImageParams.titleResId);
-            }
-        } else {
-            mToolbar.setTitle(ImageParams.title);
-        }
+        setToolbarTitleFromParams();
         mToolbar.setTitleTextColor(ImageParams.titleColor);
         mToolbar.setNavigationIcon(R.drawable.ic_ab_close);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -124,24 +119,48 @@ public class ImagePickerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_CODE_VIEW_LARGE_IMAGE) {
+            if (resultCode == RESULT_OK) {
+                List<ImageFile> selectedImageFileList = (List<ImageFile>)
+                        data.getSerializableExtra(EXTRA_KEY_SELECTED_IMAGE_LIST);
+                Log.d(TAG, "onActivityResult: " + selectedImageFileList);
+                mImagePickerAdapter.setSelectedImageFiles(selectedImageFileList);
+                onImageSelected(null, selectedImageFileList.size());
+            }
+        }
+    }
+
+    private void setToolbarTitleFromParams() {
+        if (TextUtils.isEmpty(ImageParams.title)) {
+            if (ImageParams.titleResId != 0) {
+                setTitle(ImageParams.titleResId);
+            }
+        } else {
+            setTitle(ImageParams.title);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_image_picker, menu);
         mCompleteMenu = menu.findItem(R.id.menu_complete);
-        mCompleteMenu.setEnabled(false);
+        updateCompleteMenu(0);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_complete) {
-            onCompleteClick();
+            onCompleteMenuClick();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void onCompleteClick() {
+    private void onCompleteMenuClick() {
         Intent data = new Intent();
-        data.putExtra(EXTRA_KEY_SELECTED_IMAGES, new ArrayList<>(mImagePickerAdapter
+        data.putExtra(EXTRA_KEY_SELECTED_IMAGE_LIST, new ArrayList<>(mImagePickerAdapter
                 .getSelectedImageFiles()));
         setResult(RESULT_OK, data);
         finish();
@@ -152,13 +171,13 @@ public class ImagePickerActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             protected void onPostExecute(List<PhotoAlbum> photoAlba) {
-                photoAlbumList = photoAlba;
-                final List<ImageFile> imageFiles = photoAlba.get(0).getImageFiles();
-                for (ImageFile imageFile : imageFiles) {
-                    Log.d(TAG, "onPhotoAlbumListGet: imageFile =" + imageFile.toString());
+                if (photoAlba == null || photoAlba.size() == 0) {
+
+                } else {
+                    photoAlbumList = photoAlba;
+                    final PhotoAlbum firstPhotoAlbum = photoAlba.get(0);
+                    onAlbumSelected(firstPhotoAlbum);
                 }
-                Log.d(TAG, "onPhotoAlbumListGet: data = " + photoAlba.size());
-                mImagePickerAdapter.setData(imageFiles);
             }
         }.execute();
 
@@ -166,7 +185,7 @@ public class ImagePickerActivity extends AppCompatActivity implements View.OnCli
 
     private void initRecyclerGridView() {
         mImagePickerAdapter = new ImagePickerAdapter(this);
-        mImagePickerAdapter.setOnImageSelectedListener(getImageSelectedListener());
+        mImagePickerAdapter.setOnImageSelectedListener(this);
         mImagePickerAdapter.setOnItemClickListener(this);
 
         mRecyclerGridView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -175,16 +194,10 @@ public class ImagePickerActivity extends AppCompatActivity implements View.OnCli
         mRecyclerGridView.setAdapter(mImagePickerAdapter);
     }
 
-    private ImagePickerAdapter.OnImageSelectedListener getImageSelectedListener() {
-        return new ImagePickerAdapter.OnImageSelectedListener() {
-            @Override
-            public void onImageSelected(ImageFile imageFile, int totalSelectedCount) {
-                mToolbar.setTitle(getString(R.string.selected_image_count, totalSelectedCount,
-                        ImageParams.maxSelectCount));
-                mCompleteMenu.setEnabled(totalSelectedCount > 0);
-                mPreviewTextView.setText(getString(R.string.preview_with_args, totalSelectedCount));
-            }
-        };
+    private void updateCompleteMenu(int totalSelectedCount) {
+        mCompleteMenu.setEnabled(totalSelectedCount > 0);
+        mCompleteMenu.setIcon(totalSelectedCount > 0 ? R.drawable.ic_ab_done :
+                R.drawable.ic_ab_done_disabled);
     }
 
     @Override
@@ -215,15 +228,7 @@ public class ImagePickerActivity extends AppCompatActivity implements View.OnCli
         AlbumBottomSheetDialog dialog = new AlbumBottomSheetDialog(this);
         dialog.setData(photoAlbumList);
         dialog.setDefaultCheckedAlbum(lastCheckedPhotoAlbum);
-        dialog.setOnAlbumSelectedListener(new AlbumAdapter.OnAlbumSelectedListener() {
-
-            @Override
-            public void onAlbumSelected(PhotoAlbum photoAlbum) {
-                lastCheckedPhotoAlbum = photoAlbum;
-                mImagePickerAdapter.setData(photoAlbum.getImageFiles());
-                mAlbumTextView.setText(photoAlbum.getName());
-            }
-        });
+        dialog.setOnAlbumSelectedListener(this);
         dialog.show();
     }
 
@@ -234,5 +239,37 @@ public class ImagePickerActivity extends AppCompatActivity implements View.OnCli
                 imageFile, new ArrayList<>(mImagePickerAdapter.getSelectedImageFiles()),
                 new ArrayList<>(mImagePickerAdapter.getmDatas()));
 
+    }
+
+    @Override
+    public void onAlbumSelected(PhotoAlbum photoAlbum) {
+        lastCheckedPhotoAlbum = photoAlbum;
+        mImagePickerAdapter.setData(photoAlbum.getImageFiles());
+        mAlbumTextView.setText(photoAlbum.getName());
+    }
+
+    @Override
+    public void onImageSelected(ImageFile imageFile, int totalSelectedCount) {
+        //update Toolbar
+        if (totalSelectedCount > 0) {
+            setTitle(getString(R.string.selected_image_count, totalSelectedCount,
+                    ImageParams.maxSelectCount));
+        } else {
+            setToolbarTitleFromParams();
+        }
+
+        //update Complete Menu
+        updateCompleteMenu(totalSelectedCount);
+
+        //update preview
+        if (totalSelectedCount > 0) {
+            mPreviewTextView.setText(getString(R.string.preview_with_args, totalSelectedCount));
+            mPreviewTextView.setEnabled(true);
+            mPreviewTextView.setAlpha(1f);
+        } else {
+            mPreviewTextView.setEnabled(false);
+            mPreviewTextView.setText(R.string.preview);
+            mPreviewTextView.setAlpha(0.5f);
+        }
     }
 }

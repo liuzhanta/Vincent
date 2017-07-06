@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_action_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_action_bar_height"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="bottom"
     android:background="@color/bg_bottom_action_bar"
     android:orientation="vertical"
-    app:layout_anchorGravity="bottom"
-    android:layout_gravity="bottom"
-    android:id="@+id/bottom_action_layout"
+    android:focusableInTouchMode="true"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    app:layout_anchorGravity="bottom">
 
     <TextView
         android:id="@+id/tv_album"
@@ -17,39 +17,41 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="?selectableItemBackground"
         android:layout_centerVertical="true"
-        android:textColor="@color/bottom_action_text_color"
+        android:background="?selectableItemBackground"
         android:gravity="center"
-        android:text="album" />
+        android:text="album"
+        android:textColor="@color/bottom_action_text_color" />
 
     <ImageView
         android:layout_width="12dp"
         android:layout_height="12dp"
-        android:layout_toRightOf="@id/tv_album"
-        android:layout_marginLeft="2dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@id/tv_album"
         android:src="@drawable/ic_triangle" />
 
     <View
         android:layout_width="1px"
-        android:layout_height="30dp"
+        android:layout_height="25dp"
         android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
         android:layout_toLeftOf="@+id/tv_preview"
         android:background="#fff" />
 
     <TextView
         android:id="@+id/tv_preview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:textColor="@color/bottom_action_text_color"
-        android:gravity="center"
         android:background="?selectableItemBackgroundBorderless"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
         android:maxLines="1"
-        android:text="@string/preview" />
+        android:text="@string/preview"
+        android:textColor="@color/bottom_action_text_color" />
 </RelativeLayout>
