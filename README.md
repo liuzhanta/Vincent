@@ -1,7 +1,16 @@
 ![](https://github.com/liuzhanta/Vincent/blob/master/screen_shot/market.png)
 
 # Vincent
-Vincent is a well-designed local image  selector for Android.  
+Vincent is a Material-Design local image selector for Android.  
+
+### Feature:
+- [x] Toolbar and BottomAction Layout behavior;
+- [x] Standard Material Design Components.For example,*BottomSheetDialog*,*Toolbar*,*RecyclerView* and so on;
+- [x] Material Design Transition Animations;
+- [x] Image Auto Fit ScaleType;
+- [x] The Zoomable Gesture used on preview large Image;
+- [x] Preview Larger Image Supported.
+
 
 ![Material Design Toolbar](https://github.com/liuzhanta/Vincent/blob/master/screen_shot/device-2017-07-05-164616.png)
 ![Bottom Sheet Behavior](https://github.com/liuzhanta/Vincent/blob/master/screen_shot/device-2017-07-05-164812.png)
