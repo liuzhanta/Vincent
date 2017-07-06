@@ -14,6 +14,7 @@ Vincent is a Material-Design local image selector for Android.  
 
 ![Material Design Toolbar](https://github.com/liuzhanta/Vincent/blob/master/screen_shot/device-2017-07-05-164616.png)
 ![Bottom Sheet Behavior](https://github.com/liuzhanta/Vincent/blob/master/screen_shot/device-2017-07-05-164812.png)
+![Preview large Image](https://github.com/liuzhanta/Vincent/blob/master/screen_shot/device-2017-07-06-191318.png)
 ![Toolbar Scroll Flag](https://github.com/liuzhanta/Vincent/blob/master/screen_shot/image_scroll.gif)
 ## Download
 
