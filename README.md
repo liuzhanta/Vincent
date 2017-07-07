@@ -17,9 +17,11 @@ Vincent is a Material-Design local image selector for Android.  
 ![Preview large Image](https://github.com/liuzhanta/Vincent/blob/master/screen_shot/device-2017-07-06-191318.png)
 ![Toolbar Scroll Flag](https://github.com/liuzhanta/Vincent/blob/master/screen_shot/image_scroll.gif)
 ## Download
-
-continuing...
-
+Add the Vincent dependency in your build.gradle.
+    
+    dependencies {
+       compile 'com.zterry.imagepicker:Vincent:1.0.0'
+    }
 
 
 
